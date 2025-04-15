@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Song Info</title>
+</head>
+<body>
+    <h1>🎶 Song of the Day</h1>
+    <button onclick="getSong()">Load Song</button>
+    <div id="output"></div>
+
+    <script>
+        function getSong() {
+            fetch("/api/songs")
+                .then(res => res.json())
+                .then(song => {
+                    document.getElementById("output").innerHTML = `
+                        <p><strong>Title:</strong> ${song.title}</p>
+                        <p><strong>Artist:</strong> ${song.artist}</p>
+                        <p><strong>Popularity:</strong> ${song.popularity}</p>
+                        <p><strong>Genre:</strong> ${song.genre.join(", ")}</p>
+                    `;
+                })
+                .catch(err => {
+                    document.getElementById("output").innerText = "Error loading song.";
+                    console.error(err);
+                });
+        }
+    </script>
+</body>
+</html>
